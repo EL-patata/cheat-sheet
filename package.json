@@ -1,35 +1,51 @@
 {
-  "name": "cheat-sheet",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@kinde-oss/kinde-auth-nextjs": "^1.8.21",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@tailwindcss/typography": "^0.5.10",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "lucide-react": "^0.282.0",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "autoprefixer": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest"
-  }
+	"name": "cheat-sheet",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@clerk/nextjs": "^4.25.1",
+		"@prisma/client": "4.16.1",
+		"@radix-ui/react-dialog": "^1.0.5",
+		"@radix-ui/react-progress": "^1.0.3",
+		"@radix-ui/react-slot": "^1.0.2",
+		"@radix-ui/react-toast": "^1.1.5",
+		"@tailwindcss/typography": "^0.5.10",
+		"@tanstack/react-query": "^4.35.7",
+		"@trpc/client": "^10.38.5",
+		"@trpc/next": "^10.38.5",
+		"@trpc/react-query": "^10.38.5",
+		"@trpc/server": "^10.38.5",
+		"@uploadthing/react": "^5.6.2",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.0.0",
+		"date-fns": "^2.30.0",
+		"lucide-react": "^0.282.0",
+		"next": "latest",
+		"prisma": "^5.3.1",
+		"react": "latest",
+		"react-dom": "latest",
+		"react-dropzone": "^14.2.3",
+		"react-pdf": "^7.5.0",
+		"tailwind-merge": "^1.14.0",
+		"tailwindcss-animate": "^1.0.7",
+		"uploadthing": "^5.7.1",
+		"zod": "^3.22.3"
+	},
+	"devDependencies": {
+		"@types/node": "latest",
+		"@types/react": "latest",
+		"@types/react-dom": "latest",
+		"autoprefixer": "latest",
+		"eslint": "latest",
+		"eslint-config-next": "latest",
+		"postcss": "latest",
+		"tailwindcss": "latest",
+		"typescript": "latest"
+	}
 }
