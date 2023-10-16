@@ -103,7 +103,7 @@ export default function Home() {
 							<span className="mt-2 text-zinc-700">
 								It&#39;s free to use.{' '}
 								<Link
-									href="/pricing"
+									href="/sign-up"
 									className="text-blue-700 underline underline-offset-2"
 								>
 									Sign up here.

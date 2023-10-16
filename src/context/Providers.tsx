@@ -8,13 +8,19 @@ type Props = {
 	children: React.ReactNode;
 };
 
+const env = process.env.NODE_ENV;
+
 const Providers: FC<Props> = ({ children }) => {
 	const [queryClient] = useState(() => new QueryClient());
 	const [trpcClient] = useState(() =>
 		trpc.createClient({
 			links: [
 				httpBatchLink({
-					url: `http://localhost:3000/api/trpc`,
+					url: `${
+						env === 'development'
+							? process.env.NEXT_PUBLIC_DEV_BASE_URL
+							: process.env.NEXT_PUBLIC_BUILD_BASE_URL
+					}/api/trpc`,
 				}),
 			],
 		})
