@@ -18,8 +18,8 @@ const Providers: FC<Props> = ({ children }) => {
 				httpBatchLink({
 					url: `${
 						env === 'development'
-							? process.env.NEXT_PUBLIC_DEV_BASE_URL
-							: process.env.NEXT_PUBLIC_BUILD_BASE_URL
+							? process.env.NEXT_PUBLIC_DEV_BASE_URL!
+							: process.env.NEXT_PUBLIC_BUILD_BASE_URL!
 					}/api/trpc`,
 				}),
 			],
