@@ -5,6 +5,14 @@ const nextConfig = {
 		config.resolve.alias.encoding = false;
 		return config;
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'img.clerk.com',
+			},
+		],
+	},
 };
 
 module.exports = nextConfig;

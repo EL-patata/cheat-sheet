@@ -8,10 +8,10 @@ import {
 } from 'lucide-react';
 import { FC, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { toast } from './ui/use-toast';
+import { toast } from '../ui/use-toast';
 import { useResizeDetector } from 'react-resize-detector';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
@@ -127,7 +127,13 @@ const PDFview: FC<Props> = ({ url }) => {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
-							<DropdownMenuItem onSelect={() => setScale(1)}>
+							<DropdownMenuItem defaultChecked onSelect={() => setScale(0.5)}>
+								50%
+							</DropdownMenuItem>
+							<DropdownMenuItem defaultChecked onSelect={() => setScale(0.75)}>
+								75%
+							</DropdownMenuItem>
+							<DropdownMenuItem defaultChecked onSelect={() => setScale(1)}>
 								100%
 							</DropdownMenuItem>
 							<DropdownMenuItem onSelect={() => setScale(1.5)}>
@@ -193,7 +199,9 @@ const PDFview: FC<Props> = ({ url }) => {
 						) : null}
 
 						<Page
-							className={cn(isLoading ? 'hidden' : '')}
+							className={cn(
+								isLoading ? 'hidden' : 'flex justify-center items-center'
+							)}
 							width={width ? width : 1}
 							pageNumber={currentPage}
 							scale={scale}

@@ -60,14 +60,14 @@ const Dashboard: FC<Props> = ({}) => {
 								</div>
 							</Link>
 							<div className="px-6 mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-muted-foreground">
-								<div className="flex items-center">
+								<p className="flex items-center">
 									<Plus className="w-4 aspect-square" />
 									{format(new Date(file.createdAt), 'dd MMM yyyy')}
-								</div>
-								<div className="flex items-center gap-2">
+								</p>
+								<p className={`flex items-center gap-2 `}>
 									<MessageSquare className="w-4 aspect-square" />
 									{file.uploadStatus}
-								</div>
+								</p>
 								<Button
 									size={'icon'}
 									variant={'destructive'}

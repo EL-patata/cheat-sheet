@@ -1,11 +1,11 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import { Button } from '../ui/button';
 import { Expand, Loader2 } from 'lucide-react';
 import SimpleBar from 'simplebar-react';
-import { toast } from './ui/use-toast';
+import { toast } from '../ui/use-toast';
 import { Document, Page } from 'react-pdf';
 import { useResizeDetector } from 'react-resize-detector';
 

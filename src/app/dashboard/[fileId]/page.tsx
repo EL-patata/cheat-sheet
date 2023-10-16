@@ -1,6 +1,7 @@
-import ChatView from '@/components/ChatView';
-import PDFview from '@/components/PDFView';
+import ChatView from '@/components/chat/ChatView';
+import PDFview from '@/components/pdf/PDFView';
 import { db } from '@/db';
+import { currentUser } from '@clerk/nextjs';
 import { FC } from 'react';
 
 type Props = {
@@ -18,10 +19,12 @@ const page: FC<Props> = async ({ params }) => {
 		},
 	});
 
+	const user = await currentUser();
+
 	return (
 		<main className=" lg:grid lg:grid-cols-[60%,40%] gap-6 md:p-10 max-h-[75vh]">
 			<PDFview url={file?.url!} />
-			<ChatView />
+			<ChatView fileId={file?.id!} user={user!} />
 		</main>
 	);
 };
