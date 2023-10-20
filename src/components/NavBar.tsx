@@ -25,7 +25,7 @@ const Navbar = ({ user }: { user: User }) => {
 						<span>Cheat sheet</span>
 					</Link>
 
-					<div className="hidden items-center space-x-4 sm:flex">
+					<div className="items-center space-x-4 flex">
 						{!user ? (
 							<>
 								<Link
