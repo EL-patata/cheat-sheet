@@ -1,60 +1,75 @@
-'use client';
-import { trpc } from '@/app/_trpc/client';
+import { ReactNode, createContext, useContext, useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { FC, createContext, useContext, useRef, useState } from 'react';
-import { INFINITE_QUERY_LIMIT } from '../Messages';
+import { trpc } from '@/app/_trpc/client';
 import { toast } from '@/components/ui/use-toast';
 
-type ContextType = {
+const INFINITE_QUERY_LIMIT = 10;
+
+type StreamResponse = {
 	addMessage: () => void;
 	message: string;
-	handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+	handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	isLoading: boolean;
 };
 
-type Props = { fileId: string; children: React.ReactNode };
+export const ChatContext = createContext<StreamResponse>({
+	addMessage: () => {},
+	message: '',
+	handleInputChange: () => {},
+	isLoading: false,
+});
 
-export const ChatContext = createContext({} as ContextType);
+interface Props {
+	fileId: string;
+	children: ReactNode;
+}
 
-const ChatProvider: FC<Props> = ({ fileId, children }) => {
+export const ChatContextProvider = ({ fileId, children }: Props) => {
 	const [message, setMessage] = useState<string>('');
-	const [isLoading, setIsloading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const utils = trpc.useContext();
 
-	const backupMessageRef = useRef(null!);
+	const backupMessage = useRef('');
 
 	const { mutate: sendMessage } = useMutation({
 		mutationFn: async ({ message }: { message: string }) => {
-			const response = await fetch(`/api/message`, {
+			const response = await fetch('/api/message', {
 				method: 'POST',
 				body: JSON.stringify({
 					fileId,
 					message,
 				}),
 			});
-			if (!response.ok) throw new Error('failed to send message');
+
+			if (!response.ok) {
+				throw new Error('Failed to send message');
+			}
+
 			return response.body;
 		},
 		onMutate: async ({ message }) => {
-			backupMessageRef.current === message;
-
+			backupMessage.current = message;
 			setMessage('');
 
+			// step 1
 			await utils.getFileMessages.cancel();
 
+			// step 2
 			const previousMessages = utils.getFileMessages.getInfiniteData();
 
+			// step 3
 			utils.getFileMessages.setInfiniteData(
 				{ fileId, limit: INFINITE_QUERY_LIMIT },
-				(oldData) => {
-					if (!oldData)
+				(old) => {
+					if (!old) {
 						return {
 							pages: [],
 							pageParams: [],
 						};
+					}
 
-					let newPages = [...oldData.pages];
+					let newPages = [...old.pages];
 
 					let latestPage = newPages[0]!;
 
@@ -68,30 +83,24 @@ const ChatProvider: FC<Props> = ({ fileId, children }) => {
 						...latestPage.messages,
 					];
 
-					newPages[0] === latestPage;
+					newPages[0] = latestPage;
 
-					return { ...oldData, pages: newPages };
+					return {
+						...old,
+						pages: newPages,
+					};
 				}
 			);
 
-			setIsloading(true);
+			setIsLoading(true);
 
 			return {
-				previousMessages: previousMessages?.pages.flatMap(
-					(page) => page?.messages ?? []
-				),
+				previousMessages:
+					previousMessages?.pages.flatMap((page) => page.messages) ?? [],
 			};
 		},
-		onError: (_, __, context) => {
-			setMessage(backupMessageRef?.current);
-			utils.getFileMessages.setData(
-				{ fileId, limit: INFINITE_QUERY_LIMIT },
-				{ messages: context?.previousMessages ?? [] }
-			);
-		},
-
 		onSuccess: async (stream) => {
-			setIsloading(false);
+			setIsLoading(false);
 
 			if (!stream) {
 				return toast({
@@ -166,32 +175,39 @@ const ChatProvider: FC<Props> = ({ fileId, children }) => {
 			}
 		},
 
+		onError: (_, __, context) => {
+			setMessage(backupMessage.current);
+			utils.getFileMessages.setData(
+				{ fileId, limit: INFINITE_QUERY_LIMIT },
+				{ messages: context?.previousMessages ?? [] }
+			);
+		},
 		onSettled: async () => {
-			setIsloading(false);
+			setIsLoading(false);
 
 			await utils.getFileMessages.invalidate({ fileId });
 		},
 	});
 
-	function addMessage() {
-		sendMessage({ message });
-		setMessage('');
-	}
-
-	function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+	const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setMessage(e.target.value);
-	}
+	};
+
+	const addMessage = () => sendMessage({ message });
 
 	return (
 		<ChatContext.Provider
-			value={{ addMessage, handleInputChange, isLoading, message }}
+			value={{
+				addMessage,
+				message,
+				handleInputChange,
+				isLoading,
+			}}
 		>
 			{children}
 		</ChatContext.Provider>
 	);
 };
-
-export default ChatProvider;
 
 export function useChat() {
 	return useContext(ChatContext);

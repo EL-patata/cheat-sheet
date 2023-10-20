@@ -79,7 +79,7 @@ const PDFview: FC<Props> = ({ url }) => {
 		setValue('page', String(page));
 	}
 	return (
-		<section className="bg-white">
+		<section className="bg-white shadow-md">
 			<header className="h-14 w-full border-b border-border px-2 flex items-center gap-2">
 				<Button
 					variant={`ghost`}

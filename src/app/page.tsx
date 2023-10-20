@@ -14,10 +14,10 @@ export default function Home() {
 					</p>
 				</main>
 				<h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-6xl">
-					Chat with your <span className="text-blue-700">documents</span> in
+					Chat with your <span className="text-primary">documents</span> in
 					seconds.
 				</h1>
-				<p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
+				<p className="mt-5 max-w-prose text-muted-foreground sm:text-lg">
 					Cheat sheet allows you to have conversations with any PDF document.
 					It&#39;s as simple as uploading your file and start asking questions.
 				</p>
@@ -51,9 +51,9 @@ export default function Home() {
 							<div className="mt-16 flow-root sm:mt-24">
 								<div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
 									<Image
-										src="/dashboard-preview.jpg"
-										width={1364}
-										height={866}
+										src="/landing.png"
+										width={2476}
+										height={1228}
 										quality={100}
 										alt="product preview"
 										className="rounded-md sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
@@ -96,15 +96,15 @@ export default function Home() {
 				<ol className="my-8 space-y-4 pt-8 px-4 md:flex md:space-x-12 md:space-y-0">
 					<li className="md:flex-1">
 						<div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-							<span className="text-sm font-medium text-blue-600">Step 1</span>
+							<span className="text-sm font-medium text-primary">Step 1</span>
 							<span className="text-xl font-semibold">
 								Sign up for an account
 							</span>
-							<span className="mt-2 text-zinc-700">
+							<span className="mt-2 text-muted-foreground">
 								It&#39;s free to use.{' '}
 								<Link
 									href="/sign-up"
-									className="text-blue-700 underline underline-offset-2"
+									className="text-primary underline underline-offset-2"
 								>
 									Sign up here.
 								</Link>
@@ -113,11 +113,11 @@ export default function Home() {
 					</li>
 					<li className="md:flex-1">
 						<div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-							<span className="text-sm font-medium text-blue-600">Step 2</span>
+							<span className="text-sm font-medium text-primary">Step 2</span>
 							<span className="text-xl font-semibold">
 								Upload your PDF file
 							</span>
-							<span className="mt-2 text-zinc-700">
+							<span className="mt-2 text-muted-foreground">
 								We&apos;ll process your file and make it ready for you to chat
 								with.
 							</span>
@@ -125,11 +125,11 @@ export default function Home() {
 					</li>
 					<li className="md:flex-1">
 						<div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-							<span className="text-sm font-medium text-blue-600">Step 3</span>
+							<span className="text-sm font-medium text-primary">Step 3</span>
 							<span className="text-xl font-semibold">
 								Start asking questions
 							</span>
-							<span className="mt-2 text-zinc-700">
+							<span className="mt-2 text-muted-foreground">
 								It&apos;s that simple. Try out Cheat sheet today - it really
 								takes less than a minute.
 							</span>
@@ -141,7 +141,7 @@ export default function Home() {
 					<div className="mt-16 flow-root sm:mt-24">
 						<div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
 							<Image
-								src="/file-upload-preview.jpg"
+								src="/preview.png"
 								alt="uploading preview"
 								width={1419}
 								height={732}

@@ -5,6 +5,7 @@ import { buttonVariants } from './ui/button';
 import { User } from '@clerk/nextjs/server';
 import { UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
+import { Files } from 'lucide-react';
 
 const Navbar = ({ user }: { user: User }) => {
 	return (
@@ -12,8 +13,14 @@ const Navbar = ({ user }: { user: User }) => {
 			<MaxWidthWrapper>
 				<div className="flex h-14 items-center justify-between border-b border-border">
 					<Link href="/" className="flex z-40 font-semibold gap-1 items-center">
-						<span className="bg-primary/50 rounded-full w-10 aspect-square flex items-center justify-center">
-							<Image src="/logo.ico" width={30} height={30} alt="logo" />
+						<span className="bg-gradient-to-tr from-orange-600 to-primary rounded-md w-8 aspect-square flex items-center justify-center">
+							<Image
+								src="/logo.ico"
+								width={25}
+								height={25}
+								alt="logo"
+								className="invert"
+							/>
 						</span>
 						<span>Cheat sheet</span>
 					</Link>
@@ -33,8 +40,11 @@ const Navbar = ({ user }: { user: User }) => {
 							</>
 						) : (
 							<>
-								<Link href="/dashboard" className={buttonVariants({})}>
-									Dashboard
+								<Link
+									href="/dashboard"
+									className={buttonVariants({ className: 'gap-2' })}
+								>
+									Dashboard <Files />
 								</Link>
 
 								<UserButton afterSignOutUrl="/sign-in" />

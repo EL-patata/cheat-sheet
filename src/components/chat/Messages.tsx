@@ -1,18 +1,21 @@
-'use client';
 import { trpc } from '@/app/_trpc/client';
 import { Loader2, MessageSquare } from 'lucide-react';
-import { FC } from 'react';
 import Message from './Message';
+import { useEffect, useRef } from 'react';
+import { useIntersection } from '@mantine/hooks';
 import { Skeleton } from '../ui/skeleton';
+import { useChat } from './context/ChatContextProvider';
 import { User } from '@clerk/nextjs/server';
-import { useChat } from './context/ChatProvider';
 
-type Props = { fileId: string; user: User };
+type Props = {
+	user?: User;
+	fileId: string;
+};
 
-export const INFINITE_QUERY_LIMIT = 10;
+const INFINITE_QUERY_LIMIT = 10;
 
-const Messages: FC<Props> = ({ fileId, user }) => {
-	const { isLoading: isAiLoading } = useChat();
+const Messages = ({ fileId, user }: Props) => {
+	const { isLoading: isAiThinking } = useChat();
 
 	const { data, isLoading, fetchNextPage } =
 		trpc.getFileMessages.useInfiniteQuery(
@@ -26,26 +29,39 @@ const Messages: FC<Props> = ({ fileId, user }) => {
 			}
 		);
 
-	const messages = data?.pages.flatMap((page) => page?.messages);
+	const messages = data?.pages.flatMap((page) => page.messages);
 
 	const loadingMessage = {
 		createdAt: new Date().toISOString(),
 		id: 'loading-message',
 		isUserMessage: false,
 		text: (
-			<span className="flex h-full items items-center justify-center">
-				<Loader2 className="w-4 aspect-square animate-spin" />
+			<span className="flex h-full items-center justify-center">
+				<Loader2 className="h-4 w-4 animate-spin" />
 			</span>
 		),
 	};
 
 	const combinedMessages = [
-		...(isAiLoading ? [loadingMessage] : []),
+		...(isAiThinking ? [loadingMessage] : []),
 		...(messages ?? []),
 	];
 
+	const lastMessageRef = useRef<HTMLDivElement>(null);
+
+	const { ref, entry } = useIntersection({
+		root: lastMessageRef.current,
+		threshold: 1,
+	});
+
+	useEffect(() => {
+		if (entry?.isIntersecting) {
+			fetchNextPage();
+		}
+	}, [entry, fetchNextPage]);
+
 	return (
-		<section className="flex max-h-[calc(100vh-10.5rem)] border-border flex-col-reverse gap-4 flex-1 p-3 overflow-y-auto scrollbar-thumb-rounded scrollbar-w-2 scrolling-touch scrollbar-thumb-blue">
+		<div className="flex max-h-[calc(100vh-10.5rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
 			{combinedMessages && combinedMessages.length > 0 ? (
 				combinedMessages.map((message, i) => {
 					const isNextMessageFromTheSameUser =
@@ -53,35 +69,42 @@ const Messages: FC<Props> = ({ fileId, user }) => {
 						combinedMessages[i]?.isUserMessage;
 
 					if (i === combinedMessages.length - 1) {
-						<Message
-							isNextMessageFromTheSameUser={isNextMessageFromTheSameUser}
-							message={message}
-							userImage={user?.imageUrl}
-						/>;
+						return (
+							<Message
+								userImage={user?.imageUrl!}
+								ref={ref}
+								message={message}
+								isNextMessageFromTheSameUser={isNextMessageFromTheSameUser}
+								key={message.id}
+							/>
+						);
 					} else
 						return (
 							<Message
-								isNextMessageFromTheSameUser={isNextMessageFromTheSameUser}
+								userImage={user?.imageUrl!}
 								message={message}
-								userImage={user?.imageUrl}
+								isNextMessageFromTheSameUser={isNextMessageFromTheSameUser}
+								key={message.id}
 							/>
 						);
 				})
 			) : isLoading ? (
 				<div className="w-full flex flex-col gap-2">
 					<Skeleton className="h-16" />
-					<Skeleton className="h-20" />
-					<Skeleton className="h-12" />
-					<Skeleton className="h-14" />
+					<Skeleton className="h-16" />
+					<Skeleton className="h-16" />
+					<Skeleton className="h-16" />
 				</div>
 			) : (
 				<div className="flex-1 flex flex-col items-center justify-center gap-2">
-					<MessageSquare className="text-primary w-8 aspect-square" />
+					<MessageSquare className="h-8 w-8 text-primary" />
 					<h3 className="font-semibold text-xl">You&apos;re all set!</h3>
-					<p className="text-muted-foreground">Ask right away.</p>
+					<p className="text-muted-foreground text-sm">
+						Ask your first question to get started.
+					</p>
 				</div>
 			)}
-		</section>
+		</div>
 	);
 };
 

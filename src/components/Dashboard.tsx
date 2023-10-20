@@ -49,7 +49,7 @@ const Dashboard: FC<Props> = ({}) => {
 								className="flex flex-col gap2"
 							>
 								<div className="p-6 pb-0 flex w-full items-center justify-between gap-2">
-									<div className="w-10 aspect-square flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+									<div className="w-10 aspect-square flex-shrink-0 rounded-full bg-gradient-to-r from-orange-600 to-primary"></div>
 									<div className="flex-1 truncate">
 										<div className="flex items-center space-x-3 ">
 											<h3 className="truncate text-lg font-medium ">
