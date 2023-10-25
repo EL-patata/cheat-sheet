@@ -22,7 +22,7 @@ const page: FC<Props> = async ({ params }) => {
 	const user = await currentUser();
 
 	return (
-		<main className="lg:grid lg:grid-cols-[60%,40%] gap-6 md:p-10 h-[calc(100vh-5rem)]">
+		<main className="grid grid-cols-1 lg:grid-cols-[60%,40%] gap-6 md:p-10 h-[calc(100vh-5rem)]">
 			<PDFview url={file?.url!} />
 			<ChatView fileId={file?.id!} user={user!} />
 		</main>
